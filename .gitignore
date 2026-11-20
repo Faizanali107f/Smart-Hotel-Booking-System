@@ -1,0 +1,13 @@
+# Compiled program
+HotelBooking
+*.exe
+*.o
+*.obj
+
+# Data files created when the program runs
+hotels.txt
+guest_info.txt
+
+# Editor folders
+.vscode/
+.vs/
