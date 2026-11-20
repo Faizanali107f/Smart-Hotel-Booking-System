@@ -27,6 +27,12 @@ private:
     bool scenery;
     double total;
 
+    // prices are copied from the hotel when the booking is made, so a
+    // later tariff change by the admin does not change old receipts
+    double singlePrice;
+    double doublePrice;
+    double sceneryPrice;
+
     static int activeBookings;   // shared by all Booking objects
 
 public:
