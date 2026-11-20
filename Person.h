@@ -1,6 +1,6 @@
 // ============================================================
 //  Person.h
-//  Smart Hotel Booking & Management System (CSL-210 OOP Lab)
+//  Smart Hotel Booking & Management System
 //
 //  Classes: Person (abstract base), Guest, Admin
 //  Concepts: inheritance (hierarchical), pure virtual functions,

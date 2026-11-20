@@ -1,6 +1,6 @@
 # Smart Hotel Booking & Management System
 
-An object-oriented **C++ application** for booking hotel rooms across 8 cities of Pakistan, with a **console version** and a **Qt desktop GUI** that share the same classes. Built as the semester project for **CSL-210 Object-Oriented Programming Lab** (BS IT, Bahria University Lahore Campus).
+An object-oriented **C++ application** for booking hotel rooms across 8 cities of Pakistan, with a **console version** and a **Qt desktop GUI** that share the same classes.
 
 The program manages 40 hotels in Lahore, Karachi, Islamabad, Rawalpindi, Peshawar, Multan, Hyderabad and Swat. Guests can book Single and Double rooms, add a scenic view, look up or cancel bookings with their CNIC, and an admin can manage tariffs and view revenue. All data is saved in text files, so bookings are still there the next time the program runs.
 

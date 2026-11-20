@@ -1,7 +1,6 @@
 // ============================================================
 //  main.cpp  (console version)
 //  Smart Hotel Booking & Management System
-//  CSL-210 Object-Oriented Programming Lab - Semester Project
 //
 //  All hotels, bookings and files are handled by HotelManager.
 //  This file only shows menus and reads input.
