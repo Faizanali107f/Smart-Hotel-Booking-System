@@ -139,7 +139,7 @@ MainWindow::MainWindow(HotelManager& manager, QWidget* parent)
     sidebar->addItem("Admin portal");
     sideLayout->addWidget(sidebar, 1);
 
-    QLabel* footer = new QLabel("CSL-210 OOP Lab Project");
+    QLabel* footer = new QLabel("40 hotels in 8 cities");
     footer->setObjectName("sideFooter");
     sideLayout->addWidget(footer);
 
