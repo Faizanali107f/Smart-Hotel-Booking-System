@@ -1,6 +1,6 @@
 # Smart Hotel Booking & Management System
 
-An object-oriented **C++ console application** for booking hotel rooms across 8 cities of Pakistan. Built as the semester project for **CSL-210 Object-Oriented Programming Lab** (BS IT, Bahria University Lahore Campus).
+An object-oriented **C++ application** for booking hotel rooms across 8 cities of Pakistan, with a **console version** and a **Qt desktop GUI** that share the same classes. Built as the semester project for **CSL-210 Object-Oriented Programming Lab** (BS IT, Bahria University Lahore Campus).
 
 The program manages 40 hotels in Lahore, Karachi, Islamabad, Rawalpindi, Peshawar, Multan, Hyderabad and Swat. Guests can book Single and Double rooms, add a scenic view, look up or cancel bookings with their CNIC, and an admin can manage tariffs and view revenue. All data is saved in text files, so bookings are still there the next time the program runs.
 
@@ -18,6 +18,7 @@ The program manages 40 hotels in Lahore, Karachi, Islamabad, Rawalpindi, Peshawa
 - **Booking lookup and cancellation by CNIC**: cancelling a booking releases its rooms.
 - **Password-protected admin portal**: view all reservations, change room and scenic view prices, and see revenue by city.
 - **File storage**: `hotels.txt` and `guest_info.txt` keep all data between runs.
+- **Two frontends, one set of classes**: the console app (`main.cpp`) and the Qt window (`gui/`) both use `HotelManager`, so the booking rules, validation and file handling are written only once.
 
 ---
 
@@ -26,7 +27,7 @@ The program manages 40 hotels in Lahore, Karachi, Islamabad, Rawalpindi, Peshawa
 | OOP Concept | Where it is used |
 |---|---|
 | Classes, objects, constructors and destructors | `Person`, `Guest`, `Admin`, `Room`, `Hotel`, `Booking` (default, parameterized and copy constructors) |
-| Arrays of objects | `Hotel` array (40 hotels) and `Booking` array |
+| Arrays of objects | `Hotel` array (40 hotels) and `Booking` array, owned by `HotelManager` |
 | Static members | `Booking::activeBookings` counts the active bookings |
 | Const member functions | All getters and `displayDetails()` / `printReceipt()` |
 | Operator overloading | `++` / `--` on `Room` to release or book a room, `+` on `Room` (price + scenic charge), `==` on `Guest` (compare CNIC) |
@@ -52,8 +53,11 @@ Hotel  ◆── Room* rooms[2]     (composition)
 Booking ──> Hotel*            (aggregation)
 Booking ──  Guest             (stores guest details)
 
+HotelManager ◆── Hotel[], Booking[]   (loads/saves files, used by both frontends)
 InputValidator                (static validation helpers)
 SearchUtility<T>              (template search)
+
+MainWindow : QMainWindow      (Qt GUI only, uses HotelManager)
 ```
 
 ---
@@ -68,7 +72,13 @@ HotelBookingSystem/
 ├── Booking.h / Booking.cpp                Booking
 ├── InputValidator.h / InputValidator.cpp  InputValidator
 ├── SearchUtility.h                        SearchUtility<T> (header-only template)
-├── main.cpp                               Menus and program flow
+├── HotelManager.h / HotelManager.cpp      HotelManager (hotels, bookings, files)
+├── main.cpp                               Console menus
+├── gui/                                   Qt desktop version
+│   ├── main.cpp
+│   ├── MainWindow.h / MainWindow.cpp      The window and its 5 pages
+│   ├── CMakeLists.txt                     Build with CMake (Qt 5 or Qt 6)
+│   └── HotelBookingGUI.pro                Or open this in Qt Creator
 └── screenshots/
 ```
 
@@ -77,6 +87,8 @@ HotelBookingSystem/
 ---
 
 ## How to Compile and Run
+
+### Console version
 
 You need a C++17 compiler (GCC / MinGW, or Visual Studio).
 
@@ -91,11 +103,27 @@ Run it:
 HotelBooking.exe      # Windows
 ```
 
-**Admin login:** username `admin`, password `admin123`
+### Qt GUI version
+
+1. Install **Qt** with **Qt Creator** (free, from qt.io). Qt 6 or Qt 5 both work.
+2. In Qt Creator, choose **File > Open File or Project** and open `gui/CMakeLists.txt` (or `gui/HotelBookingGUI.pro`).
+3. Pick a kit (for example *Desktop Qt 6 MinGW 64-bit*) and press **Run**.
+
+Or from a terminal:
+
+```bash
+cd gui
+cmake -B build
+cmake --build build
+```
+
+The GUI has five pages in the sidebar: **Hotel directory**, **Book a room** (live price estimate and capacity check), **My booking**, **Cancel booking** and **Admin portal** (reservations, revenue by city and room tariffs).
+
+**Admin login (both versions):** username `admin`, password `admin123`
 
 ---
 
-## Screenshots
+## Screenshots (console version)
 
 ### Hotel directory
 ![Hotel directory](screenshots/02-hotel-directory.png)

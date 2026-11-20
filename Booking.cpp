@@ -68,39 +68,48 @@ void Booking::cancel() {
     for (int i = 0; i < doubles; i++) ++(*hotel->getDouble());
 }
 
-void Booking::printReceipt() const {
-    cout << fixed << setprecision(0);
-    cout << "  ---------------------------------------------------\n";
-    cout << "                  BOOKING RECEIPT\n";
-    cout << "  ---------------------------------------------------\n";
-    guest.displayDetails();
-    cout << "  Hotel        : " << hotel->getName() << ", " << hotel->getCity() << endl;
-    cout << "  Check-in     : " << checkIn << "   (" << nights << " night(s))" << endl;
-    cout << "  ---------------------------------------------------\n";
+string Booking::receiptText() const {
+    stringstream out;
+    out << fixed << setprecision(0);
+    out << "  ---------------------------------------------------\n";
+    out << "                  BOOKING RECEIPT\n";
+    out << "  ---------------------------------------------------\n";
+    out << "  Guest Name   : " << guest.getName() << "\n";
+    out << "  CNIC         : " << guest.getCnic() << "\n";
+    out << "  Phone        : " << guest.getPhone() << "\n";
+    out << "  No. of Guests: " << guest.getGuestCount() << "\n";
+    out << "  Hotel        : " << hotel->getName() << ", " << hotel->getCity() << "\n";
+    out << "  Check-in     : " << checkIn << "   (" << nights << " night(s))\n";
+    out << "  ---------------------------------------------------\n";
 
     if (singles > 0) {
-        cout << "  Single x " << singles << " @ PKR " << hotel->getSingle()->getPrice()
-             << " x " << nights << " night(s) = PKR "
-             << hotel->getSingle()->calculateCost(singles, nights) << endl;
+        out << "  Single x " << singles << " @ PKR " << hotel->getSingle()->getPrice()
+            << " x " << nights << " night(s) = PKR "
+            << hotel->getSingle()->calculateCost(singles, nights) << "\n";
     }
     if (doubles > 0) {
-        cout << "  Double x " << doubles << " @ PKR " << hotel->getDouble()->getPrice()
-             << " x " << nights << " night(s) = PKR "
-             << hotel->getDouble()->calculateCost(doubles, nights);
-        if (nights >= 5) cout << "  (10% discount)";
-        cout << endl;
+        out << "  Double x " << doubles << " @ PKR " << hotel->getDouble()->getPrice()
+            << " x " << nights << " night(s) = PKR "
+            << hotel->getDouble()->calculateCost(doubles, nights);
+        if (nights >= 5) out << "  (10% discount)";
+        out << "\n";
     }
     if (scenery) {
-        cout << "  Scenic view  @ PKR " << hotel->getSceneryPrice() << " x " << nights
-             << " night(s) = PKR " << hotel->getSceneryPrice() * nights << endl;
+        out << "  Scenic view  @ PKR " << hotel->getSceneryPrice() << " x " << nights
+            << " night(s) = PKR " << hotel->getSceneryPrice() * nights << "\n";
         // overloaded + operator: room price + scenic charge per night
         Room* r = (doubles > 0) ? hotel->getDouble() : hotel->getSingle();
-        cout << "  (" << r->getType() << " room with view per night = PKR "
-             << (*r + hotel->getSceneryPrice()) << ")" << endl;
+        out << "  (" << r->getType() << " room with view per night = PKR "
+            << (*r + hotel->getSceneryPrice()) << ")\n";
     }
-    cout << "  ---------------------------------------------------\n";
-    cout << "  TOTAL AMOUNT : PKR " << total << endl;
-    cout << "  ---------------------------------------------------\n";
+    out << "  ---------------------------------------------------\n";
+    out << "  TOTAL AMOUNT : PKR " << total << "\n";
+    out << "  ---------------------------------------------------\n";
+    return out.str();
+}
+
+void Booking::printReceipt() const {
+    cout << receiptText();
 }
 
 bool Booking::matches(const string& cnic) const {
@@ -110,6 +119,11 @@ bool Booking::matches(const string& cnic) const {
 const Guest& Booking::getGuest() const { return guest; }
 Hotel* Booking::getHotel() const { return hotel; }
 double Booking::getTotal() const { return total; }
+int Booking::getSingles() const { return singles; }
+int Booking::getDoubles() const { return doubles; }
+int Booking::getNights() const { return nights; }
+string Booking::getCheckIn() const { return checkIn; }
+bool Booking::hasScenery() const { return scenery; }
 
 // Format: name|cnic|phone|guests|hotelIndex|singles|doubles|nights|checkIn|scenery|total
 string Booking::toFileString() const {

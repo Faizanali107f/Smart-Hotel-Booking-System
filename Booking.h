@@ -39,6 +39,7 @@ public:
     void confirm();         // books the rooms (may throw)
     void cancel();          // releases the rooms
 
+    std::string receiptText() const;   // receipt as text (used by console and GUI)
     void printReceipt() const;
 
     // used by SearchUtility<Booking> : true if CNIC matches
@@ -47,6 +48,11 @@ public:
     const Guest& getGuest() const;
     Hotel* getHotel() const;
     double getTotal() const;
+    int getSingles() const;
+    int getDoubles() const;
+    int getNights() const;
+    std::string getCheckIn() const;
+    bool hasScenery() const;
 
     std::string toFileString() const;
     static bool fromFileString(const std::string& line, Hotel hotels[],
